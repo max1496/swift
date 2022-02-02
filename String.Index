@@ -1,0 +1,47 @@
+파이썬이나 여타 언어들에서는 손쉽게 int로 배열의 인덱스에 접근할 수 있지만
+
+swift의 경우 String.Index 타입을 이용해야한다. 바로 예를 들겠다.
+
+a = "abc"
+print(a[0]) # a
+
+
+파이썬에서는 이는 너무 당연하다. 하지만 스위프트의 경우
+
+var a = "abc"
+print(a[a.startIndex]) // a
+위의 파이썬 코드와 동일한 코드이다.
+
+
+
+startIndex와 endIndex는 처음과 끝 인덱스를 의미하지만 endIndex는 파이썬으로 치면 len(a)와 같아서 a라는 문자열이 있다고 치면 a의 길이와 같다. 즉 인덱스 측면에서 봤을때는 1을 빼줘야한다. 코드로 설명하면
+
+var endIndex = a.index(before: string.endIndex)
+var last = string[endIndex] //3
+
+
+그렇다면 3번째 인덱스는 어떻게 구해줘야할까? 물론 after: 메소드를 한번 더 사용할 수도 있겠지만 아래와 같이 더 편한 방법이 있다.
+
+let thirdIndex = a.index(a.startIndex, offsetBy: 2)
+print(a[thirdIndex]) //c
+offsetBy 파라미터는 음수가 될수도 있다.
+
+let thirdIndex = a.index(a.startIndex, offsetBy: -1)
+print(a[thirdIndex]) //오류
+
+let thirdIndex = a.index(a.endIndex, offsetBy: -1)
+print(a[thirdIndex]) //c
+
+
+아래와 같이 문자를 검색해서 인덱스를 찾는 방법도 있습니다.
+
+a.index(of: "c")
+
+
+그렇다면 substring은 어떻게 구할까요? 문자열 슬라이싱을 할까요? 아닙니다. 제 생각엔 이 부분이 정적 타이핑 언어로서 스위프트를 어렵게 느끼게 하는것 같아요. 2~5번째 인덱스에 해당하는 내용을 구하는 코드는 다음과 같습니다.
+
+var string = "Hello World"
+var start = string.index(after: string.startIndex)
+var end = string.index(string.startIndex, offsetBy:5)
+var substring = string[start..<end]
+print(substring)
